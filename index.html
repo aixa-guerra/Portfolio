@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aixa Guerra — Portfolio · CBS Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F9F5EE;
+      --card:    #ffffff;
+      --text:    #18181b;
+      --muted:   #5a5666;
+      --light:   #8a8696;
+      --accent:  #e8735a;
+      --accent2: #fef0ed;
+      --border:  rgba(0,0,0,0.07);
+      --dark:    #18181b;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SLIDESHOW WRAPPER ── */
+    .slideshow { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+    .slides-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+      will-change: transform;
+    }
+
+    .slide {
+      flex-shrink: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3.5rem 6vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Warm corner wash — matches PDF reference */
+    .slide:not(.slide-cover):not(.slide-contact) {
+      background:
+        radial-gradient(ellipse 38% 42% at 0% 0%, rgba(248,163,114,0.26) 0%, transparent 100%),
+        var(--bg);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.94); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .slide.active .a1 { animation: fadeUp 0.55s ease both 0.05s; }
+    .slide.active .a2 { animation: fadeUp 0.55s ease both 0.15s; }
+    .slide.active .a3 { animation: fadeUp 0.55s ease both 0.25s; }
+    .slide.active .a4 { animation: fadeUp 0.55s ease both 0.35s; }
+    .slide.active .a5 { animation: fadeUp 0.55s ease both 0.45s; }
+    .slide.active .a6 { animation: fadeUp 0.55s ease both 0.55s; }
+    .slide.active .img-col { animation: scaleIn 0.65s ease both 0.2s; }
+
+    /* reset when not active */
+    .a1,.a2,.a3,.a4,.a5,.a6,.img-col { opacity: 0; }
+
+    /* ── NAV ARROWS ── */
+    .nav-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .nav-arrow:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-50%) scale(1.05); }
+    .nav-arrow.prev { left: 1.5rem; }
+    .nav-arrow.next { right: 1.5rem; }
+    .nav-arrow.hidden { opacity: 0; pointer-events: none; }
+
+    /* ── DOTS ── */
+    .dots {
+      position: fixed;
+      bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 0.5rem;
+      z-index: 100;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--light);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .dot.active { background: var(--accent); transform: scale(1.3); }
+
+    /* ── SLIDE COUNTER ── */
+    .counter {
+      position: fixed;
+      bottom: 1.5rem; right: 2rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 500;
+      z-index: 100;
+    }
+
+    /* ── EYEBROW ── */
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── CASE LAYOUT (2-col) ── */
+    .case-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: center;
+      width: 100%;
+      max-width: 1280px;
+    }
+
+    .case-layout.reverse { direction: rtl; }
+    .case-layout.reverse > * { direction: ltr; }
+
+    .info-col h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .company-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent2);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .case-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .bullet-list li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.55;
+    }
+    .bullet-list li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 0.72rem;
+      top: 0.15rem;
+    }
+
+    /* ── METRICS ROW ── */
+    .metrics {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .metric {
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+      min-width: 100px;
+    }
+    .metric-value {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.15rem;
+    }
+    .metric-label {
+      font-size: 0.73rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── TAGS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+    .tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* ── IMAGE AREA ── */
+    .img-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .img-placeholder {
+      background: var(--card);
+      border: 2px dashed #d1d5db;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--light);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-placeholder:hover { border-color: var(--accent); background: var(--accent2); }
+    .img-placeholder .ph-icon { font-size: 1.8rem; opacity: 0.5; }
+    .img-placeholder .ph-label { opacity: 0.7; }
+    .img-placeholder img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .img-placeholder.tall  { height: 320px; }
+    .img-placeholder.med   { height: 220px; }
+    .img-placeholder.short { height: 160px; }
+
+    .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* ── SLIDE 1: COVER ── */
+    .slide-cover {
+      background:
+        radial-gradient(ellipse 65% 75% at 82% 35%, rgba(248,163,114,0.30) 0%, transparent 100%),
+        radial-gradient(ellipse 45% 45% at 12% 90%, rgba(244,192,160,0.20) 0%, transparent 100%),
+        var(--bg);
+    }
+    .cover-inner {
+      max-width: 900px;
+      width: 100%;
+    }
+    .cover-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .cover-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+    .cover-name span { color: var(--accent); }
+    .cover-subtitle {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .cover-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .cover-tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .cover-hint {
+      position: absolute;
+      bottom: 2rem; right: 2rem;
+      font-size: 0.72rem;
+      color: var(--light);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .cover-easter {
+      position: absolute;
+      bottom: 2rem; left: 2rem;
+      font-size: 0.72rem;
+      color: var(--light);
+      display: flex; align-items: center; gap: 0.35rem;
+      font-style: italic;
+    }
+
+    /* cover deco */
+    .cover-deco {
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 40%;
+      background: linear-gradient(135deg, rgba(232,115,90,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+
+    /* ── SLIDE: MULTI-EVENT GRID ── */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 1280px;
+    }
+
+    .event-card {
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .event-card-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .event-card-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .event-card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    /* ── SLIDE: LIVE EVENTS (2-col) ── */
+    .live-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 1060px;
+    }
+    .live-card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .live-card-images {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .live-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .live-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .live-card p {
+      font-size: 0.81rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── SLIDE: CONTACT ── */
+    .slide-contact {
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 50%, rgba(248,163,114,0.20) 0%, transparent 100%),
+        var(--bg);
+    }
+    .contact-inner { max-width: 700px; text-align: center; }
+    .contact-inner h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 1rem;
+      white-space: nowrap;
+    }
+    .contact-inner p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    .contact-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .contact-link.primary { background: var(--accent); color: #fff; }
+    .contact-link.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,115,90,0.4); }
+    .contact-link.outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .contact-link.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+
+    /* ── SLIDE 7 OPTION A: MAGAZINE SPLIT ── */
+    .bento-a-wrap { width: 100%; max-width: 1060px; }
+    .bento-a-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      height: min(530px, calc(100vh - 155px));
+    }
+    .bento-a-col { display: flex; flex-direction: column; gap: 0.85rem; }
+    .bento-a-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.85rem;
+      flex-shrink: 0;
+    }
+    .bento-a-stats .bc { padding: 0.85rem 1rem; min-height: 0; }
+    .bento-a-stats .bv { font-size: 2rem; }
+    .bento-a-artists {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .bento-a-artists-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+
+    /* ── SLIDE: BENTO (kept for reference) ── */
+    .bento-wrap { width: 100%; max-width: 1060px; }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 200px 160px 150px;
+      gap: 0.85rem;
+    }
+    .bc {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      display: flex; flex-direction: column;
+      overflow: hidden; position: relative;
+    }
+    .bc-main {
+      grid-column: span 2; grid-row: span 2;
+      background: var(--dark); justify-content: flex-end;
+      padding: 2rem;
+    }
+    .bc-main::before {
+      content: ''; position: absolute;
+      top: -80px; right: -80px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: var(--accent); opacity: 0.07;
+    }
+    .bc-main .eyebrow { color: rgba(255,255,255,0.35); margin-bottom: 0.5rem; }
+    .bc-main h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.15; letter-spacing: -0.03em;
+      margin-bottom: 0.6rem;
+    }
+    .bc-main p {
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+    }
+    .bc-stat { justify-content: space-between; }
+    .bc-stat .bv {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2.6rem; font-weight: 800;
+      color: var(--accent); line-height: 1;
+    }
+    .bc-stat .bl {
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .bc-media {
+      grid-column: 4; grid-row: span 2;
+      padding: 0; overflow: hidden;
+    }
+    .bc-media .img-placeholder {
+      height: 100%; border-radius: 18px; border: none;
+    }
+    .bc-artists {
+      grid-column: span 3;
+      flex-direction: row; align-items: center;
+      flex-wrap: wrap; gap: 0.4rem;
+      padding: 1.1rem 1.4rem;
+    }
+    .bc-artists-label {
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted); width: 100%; margin-bottom: 0.2rem;
+    }
+    .bc-years {
+      background: var(--accent2);
+      border-color: transparent;
+      align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .bc-years .bv { color: var(--accent); font-size: 2.6rem; }
+    .bc-years .bl { color: var(--accent); opacity: 0.7; }
+
+    /* ── COVER SPLIT ── */
+    .cover-split {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 7vw;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* ── COVER PHOTO ── */
+    .cover-photo-frame {
+      width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .cover-photo-frame img {
+      width: 260px;
+      height: 310px;
+      object-fit: cover;
+      object-position: 50% 8%;
+      border-radius: 22px;
+      display: block;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.13), 0 8px 24px rgba(232,115,90,0.12);
+    }
+    .cover-photo-meta {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .cover-photo-meta .role {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .cover-photo-meta .location {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+
+    /* ── IMAGE LIGHTBOX ── */
+    .img-modal {
+      position: fixed; inset: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .img-modal.open { opacity: 1; pointer-events: all; }
+    .img-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.88);
+    }
+    .img-modal-box {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .img-modal-box img {
+      max-width: 88vw; max-height: 86vh;
+      border-radius: 12px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      display: block;
+      animation: scaleIn 0.25s ease both;
+    }
+    .img-modal-close {
+      position: absolute; top: -2.75rem; right: 0;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7); font-size: 2rem;
+      cursor: pointer; line-height: 1; transition: color 0.2s;
+    }
+    .img-modal-close:hover { color: #fff; }
+    .img-placeholder img { cursor: zoom-in; }
+
+    /* ── VIDEO THUMBNAIL ── */
+    .video-thumb {
+      width: 100%; height: 100%;
+      background-size: cover; background-position: center;
+      border-radius: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .video-thumb::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.18);
+      transition: background 0.2s;
+    }
+    .video-thumb:hover::before { background: rgba(0,0,0,0.38); }
+    .play-btn {
+      position: relative; z-index: 1;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--accent);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: transform 0.2s;
+      padding-left: 3px;
+    }
+    .video-thumb:hover .play-btn { transform: scale(1.12); }
+
+    /* ── VIDEO MODAL ── */
+    .video-modal {
+      position: fixed; inset: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .video-modal.open { opacity: 1; pointer-events: all; }
+    .video-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.88);
+    }
+    .video-modal-box {
+      position: relative;
+      width: min(900px, 88vw);
+      aspect-ratio: 16/9;
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    }
+    .video-modal-close {
+      position: absolute; top: -2.75rem; right: 0;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7); font-size: 2rem;
+      cursor: pointer; line-height: 1; transition: color 0.2s;
+    }
+    .video-modal-close:hover { color: #fff; }
+    #modalPlayer, #modalPlayer video, #modalPlayer iframe {
+      width: 100%; height: 100%; display: block; background: #000;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 200;
+    }
+
+    /* ── SLIDE TITLE OVERLAY (top-left of content slides) ── */
+    .slide-label {
+      position: absolute;
+      top: 1.5rem; left: 2.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light);
+      z-index: 10;
+    }
+
+    /* ── SLIDE 7: 2-COL + CAROUSEL ── */
+    .slide7-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 0.85rem;
+      width: 100%;
+      max-width: 1280px;
+      height: min(600px, calc(100vh - 128px));
+    }
+    .slide7-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      overflow: hidden;
+    }
+    .slide7-right {
+      overflow: hidden;
+      position: relative;
+      border-radius: 14px;
+    }
+    /* ── SLIDE 7 PHOTO VIEWER ── */
+    .s7-viewer {
+      position: relative;
+      height: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--dark);
+    }
+    .s7-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      cursor: zoom-in;
+    }
+    .s7-slide.active { opacity: 1; pointer-events: all; }
+    .s7-viewer-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem 1.25rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+    }
+    .s7-viewer-eyebrow {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.3rem;
+    }
+    .s7-viewer-title {
+      font-size: 1.05rem; font-weight: 700;
+      color: #fff; line-height: 1.3;
+    }
+    .s7-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--text);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .s7-nav:hover { background: var(--accent); color: #fff; }
+    .s7-nav.hidden { opacity: 0; pointer-events: none; }
+    .s7-nav-prev { left: 0.75rem; }
+    .s7-nav-next { right: 0.75rem; }
+    .s7-viewer-dots {
+      position: absolute;
+      bottom: 1rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 0.45rem; z-index: 10;
+    }
+    .s7-viewer-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .s7-viewer-dot.active { background: #fff; transform: scale(1.35); }
+
+    /* ── SLIDE 7 PULL QUOTE ── */
+    .s7-quote {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.25rem 0 0.25rem 1.25rem;
+      border-left: 3px solid var(--accent);
+    }
+    .s7-quote-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.65rem;
+    }
+    .s7-quote-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.75;
+    }
+    .s7-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.12) 55%, transparent 100%);
+    }
+    .s7-card-text {
+      position: relative; z-index: 1;
+      padding: 0.7rem 0.85rem;
+      display: flex; flex-direction: column; gap: 0.18rem;
+    }
+    .s7-card-label {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .s7-card-title {
+      font-size: 0.8rem; font-weight: 700;
+      color: #fff; line-height: 1.2;
+    }
+
+    /* ── VENUE BADGE ── */
+    .venue-tag {
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.28rem 0.8rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── STICKER OVERLAY ── */
+    .sticker {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      width: 136px;
+      transform: rotate(-4deg);
+      border-radius: 6px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* ── DIVIDER LINE ── */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin: 0.75rem 0 1rem;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="slideshow">
+  <div class="slides-track" id="track">
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 1: COVER
+    ══════════════════════════════════════════ -->
+    <div class="slide slide-cover active" data-label="">
+
+      <div class="cover-split">
+
+        <div class="cover-inner">
+          <div class="cover-eyebrow a1">Portfolio</div>
+          <div class="cover-name a2">Aixa<br><span>Guerra</span></div>
+          <div class="cover-subtitle a3">
+            Event production and digital marketing professional with 8+ years of experience connecting brand initiatives with cultural moments across LATAM.
+          </div>
+          <div class="cover-tags a4">
+            <span class="cover-tag">Live Event Production</span>
+            <span class="cover-tag">Digital Marketing</span>
+          </div>
+        </div>
+
+        <div class="img-col">
+          <div class="cover-photo-frame">
+            <img src="./Portfolio/IMG_1730.jpg" alt="Aixa Guerra" />
+          </div>
+        </div>
+
+      </div>
+      <div class="cover-hint a5">Use ← → to navigate</div>
+      <div class="cover-easter a6">♪ stay until the end.</div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 2: FORUM HEAL BRASIL
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="Event Production · Osana">
+      <div class="slide-label a1">Event Production · Osana</div>
+      <div class="case-layout">
+        <div class="info-col">
+          <div class="eyebrow a1">Full Event Production</div>
+          <h2 class="a2">Fórum HEAL<br>Brasil</h2>
+          <div class="company-badge a3">Osana · 2024</div>
+          <p class="case-desc a3">
+            First HEAL Forum in Latin America — a hybrid health tech event in São Paulo bringing together medical leaders, health system directors, and industry innovators.
+          </p>
+          <ul class="bullet-list a4">
+            <li>End-to-end production: technical setup, live streaming, and on-site logistics</li>
+            <li>Eventbrite registration management and digital ticket design</li>
+            <li>Technical script writing and coordination with local streaming team</li>
+            <li>Digital amplification: LinkedIn campaigns, email, and segmented paid media</li>
+            <li>Visual assets production for pre-event, live coverage, and post-event</li>
+          </ul>
+          <div class="metrics a5">
+            <div class="metric">
+              <div class="metric-value">115</div>
+              <div class="metric-label">Registrations</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">25%</div>
+              <div class="metric-label">Target audience</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">🇧🇷</div>
+              <div class="metric-label">Traveled to São Paulo</div>
+            </div>
+          </div>
+          <div class="tags a6">
+            <span class="tag">Live Streaming</span>
+            <span class="tag">Eventbrite</span>
+            <span class="tag">Meta Ads</span>
+            <span class="tag">LinkedIn Campaigns</span>
+            <span class="tag">Email Marketing</span>
+            <span class="tag">Event Design</span>
+          </div>
+        </div>
+        <div class="img-col">
+          <div style="position: relative;">
+            <div class="img-placeholder tall" style="padding:0; overflow:hidden;">
+              <div class="video-thumb"
+                style="background-image:url('https://img.youtube.com/vi/6t8E-XzxTzY/maxresdefault.jpg')"
+                onclick="window.open('https://www.youtube.com/watch?v=6t8E-XzxTzY','_blank')">
+                <div class="play-btn">▶</div>
+              </div>
+            </div>
+            <img src="./Portfolio/Osana/Heal entrada.png" class="sticker" alt="Heal entrada ticket" />
+          </div>
+          <div class="img-row">
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/heal brasil 1.png" alt="Forum HEAL Brasil" style="object-position: center 15%;" />
+            </div>
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/Heal - back.png" alt="Heal speakers panel" style="object-fit: contain;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 3: MEETUP MENDOZA
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="Employer Branding Event · Osana">
+      <div class="slide-label a1">Employer Branding Event · Osana</div>
+      <div class="case-layout reverse">
+        <div class="info-col">
+          <div class="eyebrow a1">Community Event</div>
+          <h2 class="a2">Health & Tech<br>Meetup Mendoza</h2>
+          <div class="company-badge a3">Osana · 2023</div>
+          <p class="case-desc a3">
+            First Osana meetup outside Buenos Aires — a hybrid after-office event for the Mendoza IT community, connecting local tech professionals with the Osana team and product vision.
+          </p>
+          <ul class="bullet-list a4">
+            <li>Full logistics production: venue, props, QR access, credentials, and networking dynamics</li>
+            <li>Visual identity iteration and branded materials (banners, stickers, giveaways)</li>
+            <li>Internal landing page for material sharing and event diffusion</li>
+            <li>Communication strategy across Instagram, LinkedIn, and WhatsApp</li>
+            <li>Eventbrite setup and registration management</li>
+          </ul>
+          <div class="metrics a5">
+            <div class="metric">
+              <div class="metric-value">80+</div>
+              <div class="metric-label">Attendees</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">47%</div>
+              <div class="metric-label">Target audience</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">+600</div>
+              <div class="metric-label">Eventbrite clicks</div>
+            </div>
+          </div>
+          <div class="tags a6">
+            <span class="tag">Event Logistics</span>
+            <span class="tag">Community</span>
+            <span class="tag">Eventbrite</span>
+            <span class="tag">Content Strategy</span>
+          </div>
+        </div>
+        <div class="img-col">
+          <div class="img-placeholder tall" style="background:#0a1628;">
+            <img src="./Portfolio/Osana/meetup mendoza osana 8.png" alt="Event banner" style="object-fit: contain;" />
+          </div>
+          <div class="img-row">
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/meetup mendoza osana 9.JPG" alt="Meetup Mendoza event" style="object-position: center 20%;" />
+            </div>
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/meetup mendoza osana 5.png" alt="Internal landing page" style="object-position: top center;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 4: OSANA CULTURAL EVENT
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="Employer Branding · Osana">
+      <div class="slide-label a1">Employer Branding · Osana</div>
+      <div class="case-layout">
+        <div class="info-col">
+          <div class="eyebrow a1">Employer Branding</div>
+          <h2 class="a2">Employer Branding<br>from Scratch</h2>
+          <div class="company-badge a3">Osana · 2023</div>
+          <p class="case-desc a3">
+            Developed the end-to-end employer branding strategy and execution at Osana — from social media content and internal communications to the production of virtual, hybrid, and in-person events. Built and scaled EB in a remote-first company of 100+ people across Argentina.
+          </p>
+          <ul class="bullet-list a4">
+            <li>EB strategy across social media, email, and internal channels</li>
+            <li>Production of virtual, hybrid, and in-person events — all-company gatherings, meetups, and cultural moments</li>
+            <li>Internal communications: Slack, newsletters, all-hands, and leadership visibility</li>
+            <li>Pre and post-event content production and impact measurement</li>
+            <li>Brand ambassador programs and employee advocacy initiatives</li>
+          </ul>
+          <div class="metrics a5">
+            <div class="metric">
+              <div class="metric-value">80%+</div>
+              <div class="metric-label">Participation rate</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">8/10</div>
+              <div class="metric-label">Satisfaction score</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">100+</div>
+              <div class="metric-label">Employees</div>
+            </div>
+          </div>
+          <div class="tags a6">
+            <span class="tag">Internal Events</span>
+            <span class="tag">Culture</span>
+            <span class="tag">Employer Branding</span>
+            <span class="tag">Internal Comms</span>
+          </div>
+        </div>
+        <div class="img-col">
+          <div class="img-placeholder tall">
+            <img src="./Portfolio/Osana/eb - fin de año 2.jpg" alt="Company cultural event" style="object-position: center 20%;" />
+          </div>
+          <div class="img-row">
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/eb-100-osaners.jpeg" alt="100 Osaners celebration" style="object-position: center top;" />
+            </div>
+            <div class="img-placeholder short">
+              <img src="./Portfolio/Osana/eb - fin de año 1.jpg" alt="Cultural event" style="object-position: center 20%;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 5: WOLOX EVENTS COLLECTION
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="Tech Events & Community · Wolox">
+      <div class="slide-label a1">Tech Events & Community · Wolox, Part of Accenture</div>
+      <div style="max-width:1280px; width:100%;">
+        <div class="a2" style="margin-bottom:1.5rem;">
+          <div class="eyebrow">5+ Years Building Tech Communities</div>
+          <div style="font-family:'DM Sans',sans-serif; font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-0.03em; margin-top:0.25rem;">
+            Events, Hackathons & Community Partnerships
+          </div>
+        </div>
+        <div class="events-grid a3">
+
+          <div class="event-card">
+            <div class="event-card-badge">Tech Meetups · 2017–2021</div>
+            <div class="img-placeholder med" style="background:#1e2330;">
+              <img src="./Portfolio/Wolox/meetup wolox react.jpg" alt="React Native Buenos Aires Meetup" style="object-fit: contain;" />
+            </div>
+            <div class="event-card-title">React, Node.js & Mobile Meetups</div>
+            <div class="event-card-desc">Planned and executed 10+ tech meetups across LATAM (50–150 attendees each). Coordinated speakers, streaming, logistics, and community partnerships.</div>
+            <div class="tags"><span class="tag">50–150 attendees</span><span class="tag">LATAM</span></div>
+            <a href="https://www.youtube.com/@WoloxChannel/streams" target="_blank" style="font-size:0.72rem;font-weight:600;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.25rem;">▶ Watch streams</a>
+          </div>
+
+          <div class="event-card">
+            <div class="event-card-badge">Hackathon · 2019</div>
+            <div class="img-placeholder med" style="padding:0; overflow:hidden;">
+              <div class="video-thumb"
+                style="background-image:url('./Portfolio/Wolox/hackathon wolox 2.png')"
+                onclick="openVideoModal('local','./Portfolio/Wolox/hackathonwolox.mp4')">
+                <div class="play-btn">▶</div>
+              </div>
+            </div>
+            <div class="event-card-title">Hackathon Wolox</div>
+            <div class="event-card-desc">Full communication plan, content production with Tech and Brand teams, live coverage, and post-event reporting.</div>
+            <div class="tags"><span class="tag">Live Content</span><span class="tag">Production</span></div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-card-badge">Conference Sponsorship · 2019</div>
+            <div class="img-placeholder med">
+              <img src="./Portfolio/Wolox/swiftable 1.jpg" alt="Swiftable 2019" style="object-position: center 15%;" />
+            </div>
+            <div class="event-card-title">Swiftable</div>
+            <div class="event-card-desc">Organized brand presence as sponsor — stand experience design, photography, real-time social content, and attendee engagement.</div>
+            <div class="tags"><span class="tag">Sponsorship</span><span class="tag">Brand Activation</span></div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-card-badge">Brand Activation · 2018</div>
+            <div class="img-placeholder med" style="padding:0; overflow:hidden;">
+              <div class="video-thumb"
+                style="background-image:url('./Portfolio/Wolox/Tech_Tonic - 21167066_1632408446792183_5107522125009067804_o.jpg')"
+                onclick="openVideoModal('local','./Portfolio/Wolox/tech and tonic video v4.mp4')">
+                <div class="play-btn">▶</div>
+              </div>
+            </div>
+            <div class="event-card-title">Tech&Tonic at WeWork</div>
+            <div class="event-card-desc">Brand activation at an entrepreneur event at WeWork. Content creation, live coverage, and interactive experiences on-site.</div>
+            <div class="tags"><span class="tag">Activation</span><span class="tag">Live Content</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 6: LIVE EVENTS (new)
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="Live Production · 2026">
+      <div class="slide-label a1">Live Production · 2026</div>
+      <div style="max-width:1100px; width:100%;">
+        <div class="a2" style="margin-bottom:1.5rem;">
+          <div class="eyebrow">Live & Cultural Experience</div>
+          <div style="font-family:'DM Sans',sans-serif; font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-0.03em; margin-top:0.25rem;">
+            Music Events & Cultural Venues
+          </div>
+        </div>
+        <div class="live-grid a3">
+
+          <div class="live-card">
+            <div class="live-card-images">
+              <div class="img-placeholder med" style="padding:0; overflow:hidden;">
+                <img src="./Imagenes/Everglow 2.JPG" alt="Everglow show" style="object-position: center 30%;" />
+              </div>
+              <div class="img-placeholder short" style="background:#111;">
+                <img src="./Imagenes/Everglow 1.png" alt="VIP backstage setup" />
+              </div>
+            </div>
+            <div class="live-card-content">
+              <div class="company-badge" style="margin-bottom:0;">Studio PAV LATAM · May 2026</div>
+              <h3>Everglow · Teatro Flores</h3>
+              <p>Production assistant for Studio PAV LATAM for Everglow, one of the top K-pop acts of the current wave. Managed VIP experiences, photo activations, meet-and-greet sessions, backstage logistics, and audience flow — a hands-on look at the depth of artist-fan connection.</p>
+              <div class="tags">
+                <span class="tag">Music Production</span>
+                <span class="tag">VIP Experience</span>
+                <span class="tag">Artist-Fan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-card">
+            <div class="live-card-images">
+              <div class="img-placeholder med" style="padding:0; overflow:hidden; background:#8B7868;">
+                <img src="./Imagenes/Konex 1.png" alt="Discos Esenciales Almendra" style="object-fit: contain;" />
+              </div>
+            </div>
+            <div class="live-card-content">
+              <div class="company-badge" style="margin-bottom:0;">Ciudad Cultural Konex · May 2026</div>
+              <h3>Discos Esenciales — Almendra</h3>
+              <p>Worked with the Ciudad Cultural Konex team on a live music event, managing hospitality, audience coordination, and on-site logistics. Part of an active immersion in Buenos Aires' live cultural scene.</p>
+              <div class="tags">
+                <span class="tag">Live Events</span>
+                <span class="tag">Venue Operations</span>
+                <span class="tag">Cultural Programming</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 7: PERSONAL — LIVE MUSIC
+    ══════════════════════════════════════════ -->
+    <div class="slide" data-label="On a personal note">
+      <div class="slide-label a1">On a personal note</div>
+      <div style="max-width:1280px; width:100%;">
+        <div class="a2" style="margin-bottom:1.1rem;">
+          <div class="eyebrow">Beyond the résumé</div>
+          <div style="font-family:'DM Sans',sans-serif; font-size:clamp(1.5rem,2.8vw,2rem); font-weight:800; letter-spacing:-0.03em; margin-top:0.25rem;">172 shows. 5 countries. A passion for live music.</div>
+          <div style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem; font-weight:500;">180+ unique artists · 20 years of live music</div>
+        </div>
+
+        <div class="slide7-layout a3">
+
+          <!-- LEFT: single info column -->
+          <div class="slide7-left">
+
+            <div class="s7-quote">
+              <div class="s7-quote-eyebrow">The story</div>
+              <div class="s7-quote-text">
+                Since 2006 I've logged every concert I've attended — because a show has never been just a show. It's the moment an artist turns a crowd into a community, where emotion becomes memory. 172 concerts later, I understand what makes that connection unforgettable — and I want to help build it at scale.
+              </div>
+            </div>
+
+            <div class="event-card" style="flex:0 0 auto; display:flex; flex-direction:column; gap:0.65rem;">
+              <div>
+                <div class="event-card-badge">Most seen</div>
+                <div class="tags" style="margin-top:0.3rem;">
+                  <span class="tag">Lollapalooza ×8</span>
+                  <span class="tag">Tan Biónica ×8</span>
+                  <span class="tag">Jonas Brothers ×6</span>
+                  <span class="tag">Miranda ×6</span>
+                  <span class="tag">CA7RIEL & Paco Amoroso ×5</span>
+                  <span class="tag">Barbi Recanati ×5</span>
+                  <span class="tag">Rosalía ×5</span>
+                  <span class="tag">Coldplay ×4</span>
+                  <span class="tag">Ed Sheeran ×4</span>
+                </div>
+              </div>
+              <div>
+                <div class="event-card-badge">Countries</div>
+                <div style="display:flex; gap:0.3rem; margin-top:0.3rem; flex-wrap:wrap;">
+                  <span class="tag">🇦🇷</span><span class="tag">🇨🇱</span><span class="tag">🇧🇷</span><span class="tag">🇮🇪</span><span class="tag">🇬🇧</span>
+                </div>
+              </div>
+              <div>
+                <div class="event-card-badge">Top venues</div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.3rem;">
+                  <span class="venue-tag">Movistar Arena ×29</span>
+                  <span class="venue-tag">River Plate ×18</span>
+                  <span class="venue-tag">🇮🇪 Croke Park</span>
+                  <span class="venue-tag">🇮🇪 3Arena Dublin</span>
+                  <span class="venue-tag">🇬🇧 ABBA Arena London</span>
+                  <span class="venue-tag">🇨🇱 Movistar Arena Santiago</span>
+                  <span class="venue-tag">C Complejo Art Media ×6</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: full photo viewer -->
+          <div class="s7-viewer">
+            <div class="s7-slide active"
+              data-src="./Imagenes/spices2.jpg"
+              style="background-image:url('./Imagenes/spices2.jpg'); background-position:center 20%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">Most memorable</div>
+                <div class="s7-viewer-title">Spice Girls · Croke Park, Dublin</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/ladygaga.JPG"
+              style="background-image:url('./Imagenes/ladygaga.JPG'); background-position:center 40%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">Born This Way Ball</div>
+                <div class="s7-viewer-title">Lady Gaga · Estadio River Plate</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/Edsheeran1-dublin.png"
+              style="background-image:url('./Imagenes/Edsheeran1-dublin.png'); background-position:center 40%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">Mathematics Tour · Dublin</div>
+                <div class="s7-viewer-title">Ed Sheeran · 3Arena Dublin</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/Edsheeran2-dublin.JPG"
+              style="background-image:url('./Imagenes/Edsheeran2-dublin.JPG'); background-position:center 40%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">Mathematics Tour · Dublin</div>
+                <div class="s7-viewer-title">Ed Sheeran · 3Arena Dublin</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/superjunior-chile1.jpg"
+              style="background-image:url('./Imagenes/superjunior-chile1.jpg'); background-position:center 30%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">K-Pop · Santiago de Chile</div>
+                <div class="s7-viewer-title">Super Junior · Movistar Arena Santiago</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/superjunior-chile2.png"
+              style="background-image:url('./Imagenes/superjunior-chile2.png'); background-position:center 30%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">K-Pop · Santiago de Chile</div>
+                <div class="s7-viewer-title">Super Junior · Movistar Arena Santiago</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/taylorswift1.JPG"
+              style="background-image:url('./Imagenes/taylorswift1.JPG'); background-position:center 30%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">The Eras Tour · 3 fechas</div>
+                <div class="s7-viewer-title">Taylor Swift · Buenos Aires</div>
+              </div>
+            </div>
+            <div class="s7-slide"
+              data-src="./Imagenes/taylorswift2.JPG"
+              style="background-image:url('./Imagenes/taylorswift2.JPG'); background-position:center 30%;"
+              onclick="openImageModal(this.dataset.src)">
+              <div class="s7-viewer-label">
+                <div class="s7-viewer-eyebrow">The Eras Tour · 3 fechas</div>
+                <div class="s7-viewer-title">Taylor Swift · Buenos Aires</div>
+              </div>
+            </div>
+            <button class="s7-nav s7-nav-prev hidden" id="s7vprev" onclick="s7vGo(-1)">←</button>
+            <button class="s7-nav s7-nav-next" id="s7vnext" onclick="s7vGo(1)">→</button>
+            <div class="s7-viewer-dots" id="s7vdots"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SLIDE 8: CONTACT
+    ══════════════════════════════════════════ -->
+    <div class="slide slide-contact" data-label="">
+      <div class="contact-inner">
+        <h2 class="a2">I've crossed borders for a song.<br><span style="color:var(--accent);">It's never just a concert.</span></h2>
+        <p class="a3">Buenos Aires, Argentina · Open to joining Spotify's CBS team</p>
+        <div class="contact-links a4">
+          <a href="mailto:aixa.fi1311@gmail.com" class="contact-link primary">✉ aixa.fi1311@gmail.com</a>
+          <a href="https://linkedin.com/in/aixaguerra" target="_blank" class="contact-link outline">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end slides-track -->
+</div><!-- end slideshow -->
+
+<!-- Navigation -->
+<button class="nav-arrow prev hidden" id="prev" aria-label="Previous slide">←</button>
+<button class="nav-arrow next" id="next" aria-label="Next slide">→</button>
+
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+
+<script>
+  const track    = document.getElementById('track');
+  const slides   = Array.from(track.children);
+  const prevBtn  = document.getElementById('prev');
+  const nextBtn  = document.getElementById('next');
+  const dotsEl   = document.getElementById('dots');
+  const counter  = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+
+  const TOTAL = slides.length;
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => go(i));
+    dotsEl.appendChild(d);
+  });
+
+  function updateUI() {
+    // translate track
+    track.style.transform = `translateX(-${current * 100}vw)`;
+
+    // active class for animations
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === current);
+    });
+
+    // dots
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+
+    // arrows
+    prevBtn.classList.toggle('hidden', current === 0);
+    nextBtn.classList.toggle('hidden', current === TOTAL - 1);
+
+    // counter
+    counter.textContent = `${current + 1} / ${TOTAL}`;
+
+    // progress bar
+    progress.style.width = `${((current + 1) / TOTAL) * 100}%`;
+  }
+
+  function go(index) {
+    if (index < 0 || index >= TOTAL) return;
+    current = index;
+    updateUI();
+  }
+
+  prevBtn.addEventListener('click', () => go(current - 1));
+  nextBtn.addEventListener('click', () => go(current + 1));
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeVideoModal(); closeImageModal(); }
+    if (document.getElementById('videoModal').classList.contains('open')) return;
+    if (e.key === 'ArrowRight' || e.key === ' ')  { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft')                     { e.preventDefault(); go(current - 1); }
+  });
+
+  // Touch / swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) go(dx > 0 ? current + 1 : current - 1);
+  });
+
+  // Init
+  updateUI();
+</script>
+
+<!-- ── IMAGE LIGHTBOX ── -->
+<div class="img-modal" id="imgModal">
+  <div class="img-modal-backdrop" onclick="closeImageModal()"></div>
+  <div class="img-modal-box">
+    <button class="img-modal-close" onclick="closeImageModal()">×</button>
+    <img id="modalImg" src="" alt="" />
+  </div>
+</div>
+
+<!-- ── VIDEO MODAL ── -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-backdrop" onclick="closeVideoModal()"></div>
+  <div class="video-modal-box">
+    <button class="video-modal-close" onclick="closeVideoModal()">×</button>
+    <div id="modalPlayer"></div>
+  </div>
+</div>
+
+<script>
+  // Image lightbox
+  function openImageModal(src) {
+    const modal = document.getElementById('imgModal');
+    document.getElementById('modalImg').src = src;
+    modal.classList.add('open');
+  }
+  function closeImageModal() {
+    document.getElementById('imgModal').classList.remove('open');
+    document.getElementById('modalImg').src = '';
+  }
+
+  // Auto-attach to all portfolio images
+  document.querySelectorAll('.img-placeholder img').forEach(img => {
+    img.addEventListener('click', () => openImageModal(img.src));
+  });
+
+  function openVideoModal(type, src) {
+    const modal  = document.getElementById('videoModal');
+    const player = document.getElementById('modalPlayer');
+    if (type === 'local') {
+      player.innerHTML = `<video src="${src}" controls autoplay style="width:100%;height:100%;background:#000;"></video>`;
+    } else {
+      player.innerHTML = `<iframe src="${src}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;"></iframe>`;
+    }
+    modal.classList.add('open');
+  }
+
+  function closeVideoModal() {
+    const modal  = document.getElementById('videoModal');
+    const player = document.getElementById('modalPlayer');
+    modal.classList.remove('open');
+    player.innerHTML = '';
+  }
+
+  // Slide 7 photo viewer
+  (function() {
+    const slides  = Array.from(document.querySelectorAll('.s7-slide'));
+    const prevBtn = document.getElementById('s7vprev');
+    const nextBtn = document.getElementById('s7vnext');
+    const dotsEl  = document.getElementById('s7vdots');
+    let cur = 0;
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 's7-viewer-dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => { cur = i; s7vUpdate(); });
+      dotsEl.appendChild(d);
+    });
+
+    function s7vUpdate() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+      dotsEl.querySelectorAll('.s7-viewer-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+      prevBtn.classList.toggle('hidden', cur === 0);
+      nextBtn.classList.toggle('hidden', cur === slides.length - 1);
+    }
+
+    window.s7vGo = function(dir) {
+      cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+      s7vUpdate();
+    };
+  })();
+
+</script>
+</body>
+</html>
