@@ -1004,7 +1004,11 @@
       }
       .s7-quote-text { font-size: 0.84rem; }
 
-      /* ── SLIDE 8: CONTACT ── */
+      /* ── SLIDE 8: CONTACT — centrado vertical ── */
+      .slide.slide-contact {
+        align-items: center;
+        justify-content: center;
+      }
       .contact-inner h2 {
         white-space: normal;
         font-size: clamp(1.15rem, 4.5vw, 1.6rem);
@@ -1023,8 +1027,9 @@
     @media (max-width: 480px) {
       .slide { padding: 3.25rem 1rem 5rem; }
 
-      /* Cover: ocultar foto en pantallas muy chicas */
-      .cover-photo-frame { display: none; }
+      /* Cover: foto más chica pero visible */
+      .cover-photo-frame { width: 110px; }
+      .cover-photo-frame img { width: 110px; height: 135px; border-radius: 14px; }
 
       /* Events grid: 1 columna */
       .events-grid { grid-template-columns: 1fr; }
