@@ -902,6 +902,145 @@
       margin: 0.75rem 0 1rem;
       border-radius: 2px;
     }
+
+    /* ══════════════════════════════════════════
+       MOBILE RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Slides: reducir padding y permitir scroll vertical interno */
+      .slide {
+        padding: 3.5rem 1.25rem 5rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+
+      /* Etiqueta de slide */
+      .slide-label { left: 1.25rem; }
+
+      /* Arrows de nav: más chicas y pegadas al borde */
+      .nav-arrow { width: 36px; height: 36px; font-size: 0.9rem; }
+      .nav-arrow.prev { left: 0.35rem; }
+      .nav-arrow.next { right: 0.35rem; }
+
+      /* ── SLIDE 1: COVER ── */
+      .cover-split {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .cover-photo-frame {
+        width: 140px;
+        margin: 0 auto;
+      }
+      .cover-photo-frame img {
+        width: 140px;
+        height: 170px;
+        border-radius: 16px;
+      }
+      .cover-name {
+        font-size: clamp(2.6rem, 11vw, 3.5rem);
+      }
+      .cover-subtitle {
+        font-size: 0.92rem;
+        max-width: 100%;
+      }
+      .cover-hint  { bottom: 3.75rem; right: 1.25rem; }
+      .cover-easter { bottom: 3.75rem; left: 1.25rem; }
+
+      /* ── SLIDES 2‑4: CASE LAYOUT ── */
+      .case-layout,
+      .case-layout.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 1.75rem;
+      }
+      .case-layout.reverse > * { direction: ltr; }
+
+      .info-col h2 {
+        font-size: clamp(1.7rem, 7vw, 2.4rem);
+      }
+      .case-desc { font-size: 0.88rem; }
+      .bullet-list li { font-size: 0.84rem; }
+
+      /* ── IMÁGENES: reducir alturas fijas ── */
+      .img-placeholder.tall  { height: 210px; }
+      .img-placeholder.med   { height: 170px; }
+      .img-placeholder.short { height: 130px; }
+
+      /* ── MÉTRICAS ── */
+      .metrics { gap: 0.6rem; }
+      .metric { min-width: 80px; padding: 0.55rem 0.85rem; }
+      .metric-value { font-size: 1.35rem; }
+      .metric-label { font-size: 0.68rem; }
+
+      /* ── SLIDE 5: EVENTS GRID (4 cols → 2 cols) ── */
+      .events-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      .event-card-title { font-size: 0.9rem; }
+      .event-card-desc  { font-size: 0.73rem; }
+
+      /* ── SLIDE 6: LIVE GRID ── */
+      .live-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .live-card h3 { font-size: 1.05rem; }
+      .live-card p  { font-size: 0.78rem; }
+
+      /* ── SLIDE 7: PERSONAL ── */
+      .slide7-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 1rem;
+      }
+      .slide7-left { overflow: visible; }
+      .s7-viewer {
+        height: 280px;
+        border-radius: 14px;
+      }
+      .s7-quote-text { font-size: 0.84rem; }
+
+      /* ── SLIDE 8: CONTACT ── */
+      .contact-inner h2 {
+        white-space: normal;
+        font-size: clamp(1.15rem, 4.5vw, 1.6rem);
+        line-height: 1.35;
+      }
+      .contact-inner p { font-size: 0.88rem; }
+      .contact-link { font-size: 0.8rem; padding: 0.6rem 1.1rem; }
+
+      /* ── BENTO ── */
+      .bento-a-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide { padding: 3.25rem 1rem 5rem; }
+
+      /* Cover: ocultar foto en pantallas muy chicas */
+      .cover-photo-frame { display: none; }
+
+      /* Events grid: 1 columna */
+      .events-grid { grid-template-columns: 1fr; }
+
+      /* Img row: 1 columna */
+      .img-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .img-placeholder.tall  { height: 190px; }
+      .img-placeholder.med   { height: 155px; }
+      .img-placeholder.short { height: 120px; }
+
+      /* Sticker: no se salga del contenedor */
+      .sticker { width: 100px; bottom: -6px; right: -6px; }
+
+      /* Viewer del slide 7 */
+      .s7-viewer { height: 240px; }
+    }
   </style>
 </head>
 <body>
