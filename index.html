@@ -926,26 +926,41 @@
       .nav-arrow.next { right: 0.35rem; }
 
       /* ── SLIDE 1: COVER ── */
-      .cover-split {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+      .slide.slide-cover {
+        align-items: center;
+        justify-content: center;
       }
+      .cover-split {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        width: 100%;
+      }
+      /* Foto arriba, texto abajo */
+      .cover-split .img-col { order: -1; }
       .cover-photo-frame {
-        width: 140px;
+        width: 150px;
         margin: 0 auto;
       }
       .cover-photo-frame img {
-        width: 140px;
-        height: 170px;
-        border-radius: 16px;
+        width: 150px;
+        height: 180px;
+        border-radius: 18px;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.13), 0 4px 16px rgba(232,115,90,0.15);
       }
+      /* Texto centrado */
+      .cover-inner { text-align: center; }
       .cover-name {
-        font-size: clamp(2.6rem, 11vw, 3.5rem);
+        font-size: clamp(2.8rem, 13vw, 3.8rem);
       }
       .cover-subtitle {
-        font-size: 0.92rem;
-        max-width: 100%;
+        font-size: 0.9rem;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
       }
+      .cover-tags { justify-content: center; }
       .cover-hint  { bottom: 3.75rem; right: 1.25rem; }
       .cover-easter { bottom: 3.75rem; left: 1.25rem; }
 
@@ -1027,9 +1042,10 @@
     @media (max-width: 480px) {
       .slide { padding: 3.25rem 1rem 5rem; }
 
-      /* Cover: foto más chica pero visible */
-      .cover-photo-frame { width: 110px; }
-      .cover-photo-frame img { width: 110px; height: 135px; border-radius: 14px; }
+      /* Cover: foto un poco más chica en pantallas muy pequeñas */
+      .cover-photo-frame { width: 125px; }
+      .cover-photo-frame img { width: 125px; height: 150px; border-radius: 16px; }
+      .cover-name { font-size: clamp(2.6rem, 14vw, 3.4rem); }
 
       /* Events grid: 1 columna */
       .events-grid { grid-template-columns: 1fr; }
